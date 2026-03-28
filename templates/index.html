@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h1>Expense Tracker</h1>
+
+<form action="/add" method="post">
+    <input type="text" name="name" placeholder="Expense" required>
+    <input type="number" name="amount" placeholder="Amount" required>
+
+    <select name="category">
+        <option value="food">Food</option>
+        <option value="milk">Milk</option>
+        <option value="groceries">Groceries</option>
+        <option value="gas">Gas/Petrol</option>
+        <option value="current">Electricity</option>
+        <option value="school">School</option>
+        <option value="travel">Travel</option>
+        <option value="medical">Medical</option>
+        <option value="rent">Rent</option>
+        <option value="other">Other</option>
+    </select>
+
+    <button type="submit">Add</button>
+</form>
+
+<h2>Total: ₹{{ total }}</h2>
+
+<ul>
+    {% for e in expenses %}
+        <li>{{ e.name }} - ₹{{ e.amount }} ({{ e.category }})</li>
+    {% endfor %}
+</ul>
+
+<h2>Category Wise Expenses</h2>
+<canvas id="chart"></canvas>
+
+<script>
+const ctx = document.getElementById('chart').getContext('2d');
+
+new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: {{ categories | safe }},
+        datasets: [{
+            data: {{ amounts | safe }}
+        }]
+    }
+});
+</script>
+
+<h2>Suggestions</h2>
+<ul>
+    {% for s in suggestions %}
+        <li>{{ s }}</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
