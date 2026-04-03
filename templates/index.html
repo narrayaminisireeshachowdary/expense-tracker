@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<h2>Expense Tracker</h2>
+<h1>Expense Tracker</h1>
 
 <form action="/add" method="post">
     <input type="text" name="title" placeholder="Expense name" required>
@@ -13,7 +13,7 @@
     <button type="submit">Add</button>
 </form>
 
-<h3>Expenses</h3>
+<h2>Total: ₹{{ total }}</h2>
 
 <ul>
     {% for exp in expenses %}
