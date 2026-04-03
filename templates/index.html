@@ -42,15 +42,12 @@
 <script>
 const ctx = document.getElementById('chart').getContext('2d');
 
-const labels = {{ categories | tojson }};
-const data = {{ amounts | tojson }};
-
 new Chart(ctx, {
     type: 'pie',
     data: {
-        labels: labels,
+        labels: {{ categories | tojson }},
         datasets: [{
-            data: data
+            data: {{ amounts | tojson }}
         }]
     }
 });

@@ -1,21 +1,17 @@
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
 import json
 import os
 from datetime import datetime
 from collections import defaultdict
 
 app = FastAPI()
-
-# ✅ templates + static setup
 templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 FILE = "data.json"
 
-# ✅ safe load
+# Load data
 def load_data():
     if not os.path.exists(FILE):
         return []
@@ -23,13 +19,14 @@ def load_data():
         with open(FILE, "r") as f:
             return json.load(f)
     except:
-        return []   # prevents crash if file empty
+        return []
 
-# ✅ safe save
+# Save data
 def save_data(data):
     with open(FILE, "w") as f:
         json.dump(data, f)
 
+# Suggestions
 def get_suggestions(expenses):
     total = sum(e["amount"] for e in expenses)
     suggestions = []
@@ -50,6 +47,7 @@ def get_suggestions(expenses):
 
     return suggestions
 
+# Home page
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     expenses = load_data()
@@ -73,6 +71,7 @@ def home(request: Request):
         "suggestions": suggestions
     })
 
+# Add expense
 @app.post("/add")
 def add(
     name: str = Form(...),
@@ -90,4 +89,4 @@ def add(
 
     save_data(data)
 
-    return RedirectResponse(url="/", status_code=303)
+    return RedirectResponse("/", status_code=303)
