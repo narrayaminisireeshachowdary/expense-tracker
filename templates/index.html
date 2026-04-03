@@ -1,23 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Expense Tracker</title>
+    <title>Family Expense Tracker</title>
 </head>
 <body>
 
-<h1>Expense Tracker</h1>
+<h1>💰 Family Expense Tracker</h1>
 
 <form action="/add" method="post">
     <input type="text" name="title" placeholder="Expense name" required>
     <input type="number" name="amount" step="0.01" placeholder="Amount" required>
-    <button type="submit">Add</button>
+
+    <select name="category" required>
+        <option value="Food">Food</option>
+        <option value="Groceries">Groceries</option>
+        <option value="Milk">Milk</option>
+        <option value="Vegetables">Vegetables</option>
+        <option value="Gas">Gas</option>
+        <option value="Current Bill">Current Bill</option>
+        <option value="Mobile Recharge">Mobile Recharge</option>
+        <option value="Transport">Transport</option>
+        <option value="School Fee">School Fee</option>
+        <option value="Books">Books</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Restaurant">Restaurant</option>
+        <option value="Online Orders">Online Orders</option>
+        <option value="Internet">Internet</option>
+        <option value="Savings">Savings</option>
+        <option value="Insurance">Insurance</option>
+        <option value="Medical">Medical</option>
+    </select>
+
+    <button type="submit">Add Expense</button>
 </form>
 
-<h2>Total: ₹{{ total }}</h2>
+<h2>Total Spending: ₹{{ total }}</h2>
+
+<h3>All Expenses</h3>
 
 <ul>
     {% for exp in expenses %}
-        <li>{{ exp.title }} - ₹{{ exp.amount }}</li>
+        <li>
+            {{ exp["title"] }} - ₹{{ exp["amount"] }} ({{ exp["category"] }}) - {{ exp["date"] }}
+        </li>
     {% endfor %}
 </ul>
 
